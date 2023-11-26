@@ -24,10 +24,15 @@ public class HRS {
             while(true){
                 System.out.println("Hospital Reservation System");
                 System.out.println("1. Add Patient");
-                System.out.println("2. View Patients");
-                System.out.println("3. View Doctors");
-                System.out.println("4. Book Appointment");
-                System.out.println("5. Exit");
+                System.out.println("2. Update Patient");
+                System.out.println("3. Delete Patient");
+                System.out.println("4. View Patients");
+                System.out.println("5. Add Doctor");
+                System.out.println("6. Update Doctor");
+                System.out.println("7. Delete Doctor");
+                System.out.println("8. View Doctors");
+                System.out.println("9. Book Appointment");
+                System.out.println("10. Exit");
                 System.out.println("Enter your choice: ");
 
                 int choice = scanner.nextInt();
@@ -37,18 +42,46 @@ public class HRS {
                         patient.addPatient();
                         System.out.println();
                     case 2:
+                        //Update patient
+                        System.out.println("Enter patient id to update: ");
+                        int patientID = scanner.nextInt();
+                        patient.updatePatient(patientID);
+                        System.out.println();
+                    case 3:
+                        // Delete patient
+                        System.out.println("Enter patient id to delete: ");
+                        int patID = scanner.nextInt();
+                        patient.deletePatient(patID);
+                        System.out.println();
+                    case 4:
                         //View patients
                         patient.viewPatient();
                         System.out.println();
-                    case 3:
+                    case 5:
+                        // Add doctor
+                        doctor.addDoctor();
+                        System.out.println();
+                    case 6:
+                        // Update doctor
+                        System.out.println("Enter doctor id to update: ");
+                        int doctorID = scanner.nextInt();
+                        doctor.updateDoctor(doctorID);
+                        System.out.println();
+                    case 7:
+                        // Delete doctor
+                        System.out.println("Enter doctor id to update: ");
+                        int dID = scanner.nextInt();
+                        doctor.deleteDoctor(dID);
+                        System.out.println();
+                    case 8:
                         //View doctors
                         doctor.viewDoctor();
                         System.out.println();
-                    case 4:
+                    case 9:
                         //Book appointment
                         bookAppointment(patient, doctor, con, scanner);
                         System.out.println();
-                    case 5:
+                    case 10:
                         //Exit
                         return;
                     default:
