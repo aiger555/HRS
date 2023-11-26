@@ -33,3 +33,6 @@ Aizirek Ibraimova - design of project via Figma, presentations
 Aiperi  Zhenishova - frontend
 Aigerim Naizabekova - database
 Aigerim Nuralieva - backend
+
+#More detailed information is provided in google document:
+https://docs.google.com/document/d/1CJMmiZKjQkVIveMDRrrhhKAsDddtE39QMXOGCjP3ZmY/edit?usp=sharing
