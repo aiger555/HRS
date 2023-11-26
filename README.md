@@ -12,16 +12,16 @@ All of these informations will be stored in our database.
 
 Project Requirements List: Provide a list outlining a minimum of 10 key functionalities essential for project completion.
 
-Distribute responsibilities and discuss the project, and it’s details
-Prepare necessary things 
-Create project
-Each member of team should do their part
-Prepare presentation
-Overlook and check everything in the project
-Test project
-Get feedback from teacher
-Correct if it is needed
-Submit the final project
+1.Distribute responsibilities and discuss the project, and it’s details
+2.Prepare necessary things 
+3.Create project
+4.Each member of team should do their part
+5.Prepare presentation
+6.Overlook and check everything in the project
+7.Test project
+8.Get feedback from teacher
+9.Correct if it is needed
+10.Submit the final project
 
 Team Members List: Enumerate all team members. This list should also appear in the contributors section.
  
