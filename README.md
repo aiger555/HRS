@@ -2,7 +2,7 @@
 Title: Clearly state the project title. 
 
 Description: Provide a concise overview of the project's purpose and functionality.
-What is it? This is an online appointment to the specialist, where administrator books for patient his appointment by his id, assigning hime to doctor id and choosing date.
+What is it? This is an online appointment to the specialist, where administrator books for patient his appointment by his id, assigning him to doctor by id and choosing date.
 Type of Specialists -> dentist, cardiologist, dermatologist, lor, traumatologist, dietolog.
 Filling form for patients: id, name, surname,  phone number, reason of visiting, room.
 Filling form for doctors: id, name/surname -> doctor, specialization, qualification, room 
