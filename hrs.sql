@@ -60,3 +60,9 @@ VALUES
     ('doctor2', 'password2', 'DOCTOR', 'Dr. Johnson', 'Orthopedic Surgeon', 'MD', 4),
     ('patient1', 'password1', 'PATIENT', 'John Doe', NULL, NULL, 2),
     ('patient2', 'password2', 'PATIENT', 'Jane Doe', NULL, NULL, 3);
+-- Inserting appointments for patients and doctors
+INSERT INTO appointments (patient_id, doctor_id, appointment_date) VALUES
+(1, 1, '2023-12-01'),
+(2, 2, '2023-12-02'),
+(3, 1, '2023-12-03'),
+(4, 2, '2023-12-04');
