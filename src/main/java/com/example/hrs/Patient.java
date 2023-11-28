@@ -171,10 +171,10 @@ public class Patient {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
-                int p_number = resultSet.getInt("phone number");
+                int p_number = resultSet.getInt("phone_number");
                 String reason = resultSet.getString("reason");
                 int room = resultSet.getInt("room");
-                System.out.printf("| %-5s | %-14s | %-13s | %-13s | %-13s | %-7s |");
+                System.out.printf("| %-5s | %-14s | %-13s | %-13s | %-13s | %-7s |\n", id, name, surname, p_number, reason, room);
                 System.out.println("+-----+--------------+-------------+-------------+-------------+------+");
             }
 
@@ -216,7 +216,7 @@ public class Patient {
             e.printStackTrace();
         }
     }
-    public void bookAppointmentP(int loggedInPatientId) {
+    public static void bookAppointmentP(int loggedInPatientId) {
         System.out.println("Enter doctor ID for appointment: ");
         int doctorId = scanner.nextInt();
 

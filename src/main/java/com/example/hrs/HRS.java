@@ -25,6 +25,15 @@ public class HRS {
             Connection con = DriverManager.getConnection(url, username, password);
             Patient patient = new Patient(con, scanner);
             Doctor doctor = new Doctor(con, scanner);
+            if (patient.getLoggedInPatientId() > 0) {
+                patient.patientMenu();
+            }
+
+            // Call doctorMenu if a doctor is logged in
+            if (doctor.getLoggedInDoctorId() > 0) {
+                doctor.doctorMenu(doctor, con, scanner, doctor.getLoggedInDoctorId());
+            }
+
             while (true) {
                 System.out.println("Hospital Reservation System (HRS)");
                 System.out.println("1. View patients");
@@ -65,9 +74,9 @@ public class HRS {
                         break;
                     case 6:
                         // sign in patient
-                        signInPatient(patient, con, scanner);
-                        int loggedInPatientId = patient.getLoggedInPatientId();
-                        if (loggedInPatientId > 0) {
+                        Patient.signInPatient(patient, con, scanner);
+                        if (patient.getLoggedInPatientId() > 0) {
+                            // Call patientMenu if a patient is logged in
                             patient.patientMenu();
                         }
                         break;
@@ -82,13 +91,5 @@ public class HRS {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        if (patient.getLoggedInPatientId() > 0) {
-//            patient.patientMenu();
-//        }
-//
-//        if (doctor.getLoggedInDoctorId() > 0) {
-//            doctor.doctorMenu(doctor.getLoggedInDoctorId());
-//        }
-
     }
 }

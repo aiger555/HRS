@@ -7,10 +7,16 @@
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.hrs.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+    <Label text="Hospital Reservation System (HRS)" />
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Button text="View Patients" onAction="#handleViewPatients" />
+    <Button text="View Doctors" onAction="#handleViewDoctors" />
+
+    <Button text="Register as Doctor" onAction="#handleRegisterDoctor" />
+    <Button text="Sign In as Doctor" onAction="#handleSignInDoctor" />
+
+    <Button text="Register as Patient" onAction="#handleRegisterPatient" />
+    <Button text="Sign In as Patient" onAction="#handleSignInPatient" />
+
+    <Button text="Exit" onAction="#handleExit" />
 </VBox>
