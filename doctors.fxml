@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label text="Doctor Dashboard" />
+
+    <HBox spacing="10">
+        <Button text="View Patients" onAction="#viewPatients" />
+        <Button text="View Patient Details" onAction="#viewPatientDetails" />
+        <Button text="View Booked Appointments" onAction="#viewBookedAppointments" />
+        <Button text="Book Appointment" onAction="#bookAppointment" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Add Patient" onAction="#addPatient" />
+        <Button text="Update Patient" onAction="#updatePatient" />
+        <Button text="Delete Patient" onAction="#deletePatient" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Add Appointment" onAction="#addAppointment" />
+        <Button text="Update Appointment" onAction="#updateAppointment" />
+        <Button text="Delete Appointment" onAction="#deleteAppointment" />
+    </HBox>
+
+    <TableView fx:id="patientsTableView">
+        <columns>
+            <TableColumn text="Patient ID" />
+            <TableColumn text="Name" />
+            <TableColumn text="Reason" />
+            <TableColumn text="Room" />
+        </columns>
+    </TableView>
+
+    <TableView fx:id="appointmentsTableView">
+        <columns>
+            <TableColumn text="Appointment ID" />
+            <TableColumn text="Patient" />
+            <TableColumn text="Date" />
+        </columns>
+    </TableView>
+
+    <Button text="Exit" onAction="#exit" />
+
+</VBox>
