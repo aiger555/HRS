@@ -3,10 +3,6 @@ package com.example.hrs;
 import java.sql.*;
 import java.util.Scanner;
 
-import static com.example.hrs.Doctor.*;
-import static com.example.hrs.Patient.registerPatient;
-import static com.example.hrs.Patient.signInPatient;
-
 public class HRS {
     private static final String url = "jdbc:postgresql://localhost/hrs";
     private static final String username = "postgres";
@@ -21,18 +17,10 @@ public class HRS {
 
         Scanner scanner = new Scanner(System.in);
 
-        try {
-            Connection con = DriverManager.getConnection(url, username, password);
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
             Patient patient = new Patient(con, scanner);
             Doctor doctor = new Doctor(con, scanner);
-            if (patient.getLoggedInPatientId() > 0) {
-                patient.patientMenu();
-            }
-
-            // Call doctorMenu if a doctor is logged in
-            if (doctor.getLoggedInDoctorId() > 0) {
-                doctor.doctorMenu(doctor, con, scanner, doctor.getLoggedInDoctorId());
-            }
+            User user = new User(con, scanner);
 
             while (true) {
                 System.out.println("Hospital Reservation System (HRS)");
@@ -47,41 +35,37 @@ public class HRS {
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
-                        //View patients
+                        // View patients
                         patient.viewPatient();
                         System.out.println();
                         break;
                     case 2:
-                        //View doctors
+                        // View doctors
                         doctor.viewDoctor();
                         System.out.println();
                         break;
                     case 3:
-                        //register doctor
-                        registerDoctor(doctor, con, scanner);
+                        // Register doctor
+                        user.registerDoctor();
                         break;
                     case 4:
-                        // sign in doctor
-                        signInDoctor(doctor, con, scanner);
-                        int loggedInDoctorId = doctor.getLoggedInDoctorId();
-                        if (loggedInDoctorId > 0) {
-                            doctorMenu(doctor, con, scanner, loggedInDoctorId);
-                        }
+                        // Sign in doctor and call doctorMenu
+                        System.out.println("Enter doctor ID to sign in: ");
+                        int doctorId = scanner.nextInt();
+                        user.signIn(doctorId, con, scanner);
                         break;
                     case 5:
-                        //register patient
-                        registerPatient(patient, con, scanner);
+                        // Register patient
+                        user.registerPatient();
                         break;
                     case 6:
-                        // sign in patient
-                        Patient.signInPatient(patient, con, scanner);
-                        if (patient.getLoggedInPatientId() > 0) {
-                            // Call patientMenu if a patient is logged in
-                            patient.patientMenu();
-                        }
+                        // Sign in patient and call patientMenu
+                        System.out.println("Enter patient ID to sign in: ");
+                        int patientId = scanner.nextInt();
+                        user.signIn(patientId, con, scanner);
                         break;
                     case 7:
-                        //Exit
+                        // Exit
                         return;
                     default:
                         System.out.println("Enter valid choice!!");
