@@ -32,7 +32,7 @@ public class Patient {
 
         try{
             String query =
-                    "INSERT INTO patients(name, surname, phone number, reason, room) VALUES (?, ?, ?, ?, ?)";
+                    "INSERT INTO patients(name, surname, phone_number, reason, room) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, surname);
@@ -159,7 +159,11 @@ public class Patient {
     }
 
     public static void viewDoctors(int loggedInPatientId) {
-        String query = "SELECT * FROM doctors WHERE patient_id = ?";
+        String query = "SELECT doctors.* " +
+                "FROM doctors " +
+                "JOIN users ON doctors.user_id = users.id " +
+                "JOIN patients ON patients.user_id = users.id " +
+                "WHERE doctors.id = ?";;
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -182,7 +186,7 @@ public class Patient {
             String appointmentDate = scanner.next();
 
             // Check if the doctor is available on the specified date
-            if (checkDoctorAvailability(doctorId, appointmentDate, con)) {
+            if (checkDoctorAvailability(doctorId, Date.valueOf(appointmentDate), con)) {
                 try {
                     // Create a new appointment
                     String appointmentQuery = "INSERT INTO appointments(patient_id, doctor_id, appointment_date) VALUES (?, ?, ?)";
@@ -207,16 +211,26 @@ public class Patient {
             System.out.println("Doctor with ID " + doctorId + " not found.");
         }
     }
-    public static void viewBookedAppointments(int loggedInPatientId) {
+    public static void viewBookedAppointments(Connection con, int loggedInDoctorId) {
         String query = "SELECT * FROM appointments WHERE patient_id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, Patient.loggedInPatientId);
+            preparedStatement.setInt(1, loggedInDoctorId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             System.out.println("Booked Appointments: ");
+            while (resultSet.next()) {
+                int appointmentId = resultSet.getInt("id");
+                int patientId = resultSet.getInt("patient_id");
+                Date appointmentDate = resultSet.getDate("appointment_date");
 
+                // Print or process appointment information as needed
+                System.out.println("Appointment ID: " + appointmentId);
+                System.out.println("Patient ID: " + patientId);
+                System.out.println("Appointment Date: " + appointmentDate);
+                System.out.println("-----------------------");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

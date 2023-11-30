@@ -12,13 +12,13 @@ public class Appointment {
         this.scanner = scanner;
     }
 
-    public static void addAppointment(int patientId, int doctorId, String appointmentDate) {
+    public static void addAppointment(int patientId, int doctorId, Date appointmentDate, Connection con) {
         try {
             String query = "INSERT INTO appointments(patient_id, doctor_id, appointment_date) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, patientId);
             preparedStatement.setInt(2, doctorId);
-            preparedStatement.setString(3, appointmentDate);
+            preparedStatement.setDate(3, appointmentDate);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -31,11 +31,11 @@ public class Appointment {
         }
     }
 
-    public static void updateAppointment(int appointmentId, String appointmentDate) {
+    public static void updateAppointment(Connection con, int appointmentId, Date appointmentDate) {
         try {
             String query = "UPDATE appointments SET appointment_date=? WHERE id=?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, appointmentDate);
+            preparedStatement.setDate(1, appointmentDate);
             preparedStatement.setInt(2, appointmentId);
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -49,7 +49,8 @@ public class Appointment {
         }
     }
 
-    public static void deleteAppointment(int appointmentId) {
+
+    public static void deleteAppointment(Connection con,int appointmentId) {
         try {
             String query = "DELETE FROM appointments WHERE id=?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -86,5 +87,8 @@ public class Appointment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static void setConnection(Connection connection) {
+        con = connection;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.hrs;
 
 import java.sql.*;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Doctor {
@@ -149,47 +150,54 @@ public class Doctor {
         }
         return false;
     }
-    public static void bookAppointmentD(int loggedInDoctorId) {
+    public static void bookAppointmentD(int doctorId, Connection con, Scanner scanner) {
         System.out.println("Enter patient ID for appointment: ");
         int patientId = scanner.nextInt();
 
         // Check if the patient exists
         if (patient.getPatientById(patientId)) {
             System.out.println("Enter appointment date (YYYY-MM-DD): ");
-            String appointmentDate = scanner.next();
+            String appointmentDateString = scanner.next();
 
-            // Check if the patient is available on the specified date
-            if (checkDoctorAvailability(patientId, appointmentDate, con)) {
-                try {
+            try {
+                // Parse the appointment date
+                Date appointmentDate = Date.valueOf(appointmentDateString);
+
+                // Check if the patient is available on the specified date
+                if (checkDoctorAvailability(doctorId, appointmentDate, con)) {
                     // Create a new appointment
                     String appointmentQuery = "INSERT INTO appointments(patient_id, doctor_id, appointment_date) VALUES (?, ?, ?)";
-                    PreparedStatement preparedStatement = con.prepareStatement(appointmentQuery);
-                    preparedStatement.setInt(1, patientId);
-                    preparedStatement.setInt(2, loggedInDoctorId);
-                    preparedStatement.setString(3, appointmentDate);
+                    try (PreparedStatement preparedStatement = con.prepareStatement(appointmentQuery)) {
+                        preparedStatement.setInt(1, patientId);
+                        preparedStatement.setInt(2, doctorId);
+                        preparedStatement.setDate(3, appointmentDate);
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    if (rowsAffected > 0) {
-                        System.out.println("Appointment booked successfully!");
-                    } else {
-                        System.out.println("Failed to book appointment");
+                        int rowsAffected = preparedStatement.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Appointment booked successfully!");
+                        } else {
+                            System.out.println("Failed to book appointment");
+                        }
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } else {
+                    System.out.println("Patient is not available on this date!");
                 }
-            } else {
-                System.out.println("Patient is not available on this date!");
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use the format YYYY-MM-DD.");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } else {
             System.out.println("Patient with ID " + patientId + " not found.");
         }
     }
 
-    public static boolean checkDoctorAvailability(int doctorId, String appointmentDate, Connection con){
-        String query = "select count(*) from appointments where doctor_id = ? AND appointment_date = ?";
+    public static boolean checkDoctorAvailability(int doctorId, Date appointmentDate, Connection con){
+        String query = "SELECT * FROM appointments WHERE doctor_id = ? AND appointment_date = ?";
         try{
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(2, appointmentDate);
+            preparedStatement.setInt(1, doctorId);
+            preparedStatement.setDate(2, appointmentDate);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
@@ -206,31 +214,56 @@ public class Doctor {
         }
         return  false;
     }
-    public static void viewPatients(int loggedInDoctorId) {
-        String query = "SELECT * FROM patients WHERE doctor_id = ?";
+    public static void viewPatients(Connection con, int loggedInDoctorId) {
+        String query = "SELECT patients.* " +
+                "FROM patients " +
+                "JOIN users ON patients.user_id = users.id " +
+                "JOIN doctors ON doctors.user_id = users.id " +
+                "WHERE patient.id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, Doctor.loggedInDoctorId);
+            preparedStatement.setInt(1, loggedInDoctorId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             System.out.println("Patients: ");
+            while (resultSet.next()) {
+                int patientId = resultSet.getInt("id");
+                String patientName = resultSet.getString("name");
+                // Add other patient details as needed
 
+                // Print or process patient information as needed
+                System.out.println("Patient ID: " + patientId);
+                System.out.println("Patient Name: " + patientName);
+                System.out.println("-----------------------");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     public static void viewPatientDetails(int patientId, int loggedInDoctorId) {
-        String query = "SELECT * FROM patients WHERE id = ? AND doctor_id = ?";
+        String query = "SELECT * FROM patients WHERE id = ? AND user_id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, patientId);
-            preparedStatement.setInt(2, Doctor.loggedInDoctorId);
+            preparedStatement.setInt(2, loggedInDoctorId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                // Retrieve patient details from the result set
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                // Add more fields as needed
+
+                // Display patient details
+                System.out.println("Patient Details:");
+                System.out.println("ID: " + id);
+                System.out.println("Name: " + name);
+                // Print more details
+
             } else {
                 System.out.println("Patient not found or not assigned to this doctor.");
             }
@@ -240,20 +273,32 @@ public class Doctor {
         }
     }
 
-    public static void viewBookedAppointments(int loggedInDoctorId) {
+
+    public static void viewBookedAppointments(Connection con, int loggedInDoctorId) {
         String query = "SELECT * FROM appointments WHERE doctor_id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, Doctor.loggedInDoctorId);
+            preparedStatement.setInt(1, loggedInDoctorId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             System.out.println("Booked Appointments: ");
+            while (resultSet.next()) {
+                int appointmentId = resultSet.getInt("id");
+                int patientId = resultSet.getInt("patient_id");
+                Date appointmentDate = resultSet.getDate("appointment_date");
 
+                // Print or process appointment information as needed
+                System.out.println("Appointment ID: " + appointmentId);
+                System.out.println("Patient ID: " + patientId);
+                System.out.println("Appointment Date: " + appointmentDate);
+                System.out.println("-----------------------");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
     public int getLoggedInDoctorId() {

@@ -174,9 +174,9 @@ public class User {
 
             if (resultSet.next()) {
                 String role = resultSet.getString("role");
-                if ("PATIENT".equals(role)) {
+                if ("PATIENT".equals(role) || "patient".equals(role)) {
                     patientMenu(userId);
-                } else if ("DOCTOR".equals(role)) {
+                } else if ("DOCTOR".equals(role) || "doctor".equals(role)) {
                     doctorMenu(userId, con, scanner);
                 } else {
                     System.out.println("Invalid role for user ID " + userId);
@@ -198,28 +198,34 @@ public class User {
                 case 1:
                     //View doctors
                     viewDoctors(userId);
+                    break;
                 case 2:
                     //Add doctor
                     Doctor.addDoctor();
                     System.out.println();
+                    break;
                 case 3:
                     //Update doctor
                     System.out.println("Enter doctor id to update: ");
                     int doctorid = scanner.nextInt();
                     Doctor.updateDoctor(doctorid);
                     System.out.println();
+                    break;
                 case 4:
                     // Delete doctor
                     System.out.println("Enter doctor id to delete: ");
                     int docID = scanner.nextInt();
                     Doctor.deleteDoctor(docID);
                     System.out.println();
+                    break;
                 case 5:
                     //view booked appointments
-                    viewBookedAppointments(userId);
+                    viewBookedAppointments(con,userId);
+                    break;
                 case 6:
                     //book appointment
                     bookAppointmentP(userId);
+                    break;
                 case 7:
                     // Add appointment
                     System.out.println("Enter patient id to add: ");
@@ -228,19 +234,22 @@ public class User {
                     int doctorId = scanner.nextInt();
                     System.out.println("Enter appointment date to add: ");
                     Date date = Date.valueOf(scanner.next());
-                    Appointment.addAppointment(patientId, doctorId, String.valueOf(date));
+                    Appointment.addAppointment(patientId, doctorId, date, con);
+                    break;
                 case 8:
                     //update appointment
                     System.out.println("Enter appointment id to update: ");
                     int appointmentIdToUpdate = scanner.nextInt();
                     System.out.println("Enter appointment date to update: ");
                     Date dates = Date.valueOf(scanner.next());
-                    Appointment.updateAppointment(appointmentIdToUpdate, String.valueOf(dates));
+                    Appointment.updateAppointment(con,appointmentIdToUpdate,dates);
+                    break;
                 case 9:
                     //delete appointment
                     System.out.println("Enter appointment id to delete: ");
                     int appointmentIdToDelete = scanner.nextInt();
-                    Appointment.deleteAppointment(appointmentIdToDelete);
+                    Appointment.deleteAppointment(con,appointmentIdToDelete);
+                    break;
                 case 10:
                     //exit
                     return;
@@ -265,7 +274,7 @@ public class User {
     }
 
 
-    private void printDoctorMenu() {
+    private static void printDoctorMenu() {
         System.out.println("Doctor Menu:");
         System.out.println("1. View Patients");
         System.out.println("2. view Patients details");
@@ -280,35 +289,41 @@ public class User {
         System.out.println("11. Exit");
     }
 
-    public static void doctorMenu(int loggedInDoctorId, Connection con, Scanner scanner) {
+    public static void doctorMenu(int userId, Connection con, Scanner scanner) {
         while (true) {
-
+            printDoctorMenu();
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     //view Patients
-                    Doctor.viewPatients(loggedInDoctorId);
+                    Doctor.viewPatients(con, userId);
+                    break;
                 case 2:
                     //view Patients details
                     System.out.println("Enter patient id to view details: ");
                     int patientID = scanner.nextInt();
-                    Doctor.viewPatientDetails(patientID, loggedInDoctorId);
+                    Doctor.viewPatientDetails(patientID, userId);
+                    break;
                 case 3:
                     //view booked appointments
-                    Doctor.viewBookedAppointments(loggedInDoctorId);
+                    Doctor.viewBookedAppointments(con, userId);
+                    break;
                 case 4:
                     //book appointment
-                    bookAppointmentD(loggedInDoctorId);
+                    bookAppointmentD(userId, con, scanner);
+                    break;
                 case 5:
                     //Add patient
                     Patient.addPatient();
                     System.out.println();
+                    break;
                 case 6:
                     //Update patient
                     System.out.println("Enter patient id to update: ");
                     int patientid = scanner.nextInt();
                     Patient.updatePatient(patientid);
                     System.out.println();
+                    break;
                 case 7:
                     // Delete patient
                     System.out.println("Enter patient id to delete: ");
@@ -324,19 +339,22 @@ public class User {
                     int doctorId = scanner.nextInt();
                     System.out.println("Enter appointment date to add: ");
                     Date date = Date.valueOf(scanner.next());
-                    Appointment.addAppointment(patientId, doctorId, String.valueOf(date));
+                    Appointment.addAppointment(patientId, doctorId, date, con);
+                    break;
                 case 9:
                     // Update appointment
                     System.out.println("Enter appointment id to update: ");
                     int appointmentIdToUpdate = scanner.nextInt();
                     System.out.println("Enter appointment date to update: ");
                     Date dates = Date.valueOf(scanner.next());
-                    Appointment.updateAppointment(appointmentIdToUpdate, String.valueOf(dates));
+                    Appointment.updateAppointment(con,appointmentIdToUpdate, dates);
+                    break;
                 case 10:
                     // Delete appointment
                     System.out.println("Enter appointment id to delete: ");
                     int appointmentIdToDelete = scanner.nextInt();
-                    Appointment.deleteAppointment(appointmentIdToDelete);
+                    Appointment.deleteAppointment(con,appointmentIdToDelete);
+                    break;
                 case 11:
                     return;
                 default:

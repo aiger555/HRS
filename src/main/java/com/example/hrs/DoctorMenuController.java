@@ -21,7 +21,7 @@ public class DoctorMenuController {
     void handleViewPatients() {
         // Implement logic to view patients assigned to the doctor
         // You can use doctor object and interact with the database
-        doctor.viewPatients(doctor.getLoggedInDoctorId());
+        doctor.viewPatients(con, doctor.getLoggedInDoctorId());
     }
 
     @FXML
