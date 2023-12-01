@@ -269,7 +269,7 @@ public class User {
             switch (choice) {
                 case 1:
                     //View doctors
-                    viewDoctors(userId);
+                    Patient.viewDoctors(userId);
                     break;
                 case 2:
                     //Add doctor

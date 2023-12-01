@@ -175,12 +175,24 @@ public class Patient {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             System.out.println("Doctors: ");
+            while (resultSet.next()) {
+                int doctorId = resultSet.getInt("id");
+                String doctorName = resultSet.getString("name");
+                // Add other patient details as needed
 
+                // Print or process patient information as needed
+                System.out.println("Doctor ID: " + doctorId);
+                System.out.println("Doctor Name: " + doctorName);
+                System.out.println("-----------------------");
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public static void bookAppointmentP(int loggedInPatientId) {
+
+
+        public static void bookAppointmentP(int loggedInPatientId) {
         System.out.println("Enter doctor ID for appointment: ");
         int doctorId = scanner.nextInt();
 

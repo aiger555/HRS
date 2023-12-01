@@ -133,6 +133,7 @@ public class Doctor {
         }
     }
 
+
     public static boolean getDoctorById(int id) {
         String query = "select * from doctors where id = ?";
         try {
