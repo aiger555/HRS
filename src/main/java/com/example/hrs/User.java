@@ -68,7 +68,7 @@ public class User {
     }
 
     public boolean isPatient(int userId, Connection con) {
-        String query = "SELECT * FROM patients WHERE user_id = ?";
+        String query = "SELECT * FROM patients WHERE id = ?";
         try {
             PreparedStatement preparedStatement = User.con.prepareStatement(query);
             preparedStatement.setInt(1, userId);
@@ -82,7 +82,7 @@ public class User {
     }
 
     public boolean isDoctor(int userId, Connection con) {
-        String query = "SELECT * FROM doctors WHERE user_id = ?";
+        String query = "SELECT * FROM doctors WHERE id = ?";
         try {
             PreparedStatement preparedStatement = User.con.prepareStatement(query);
             preparedStatement.setInt(1, userId);
@@ -104,19 +104,59 @@ public class User {
         String role = scanner.next();
         System.out.println("Enter name: ");
         String name = scanner.next();
-
+        System.out.println("Enter surname: ");
+        String surname = scanner.next();
+        System.out.println("Enter specialization: ");
+        String specialization = scanner.next();
+        System.out.println("Enter qualification: ");
+        String qualification = scanner.next();
+        System.out.println("Enter phone number: ");
+        int phone_number = scanner.nextInt();  // Assuming this variable is defined
+        System.out.println("Enter reason for visiting: ");
+        String reason = scanner.next();  // Assuming this variable is defined
+        System.out.println("Enter room: ");
+        int room = scanner.nextInt();
 
         try {
-            String query = "INSERT INTO users(username, password, role, name) VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, role);
-            preparedStatement.setString(4, name);
+            // Insert into the "users" table
+            String userQuery = "INSERT INTO users(username, password, role, name, specialization, qualification, room) VALUES (?, ?, ?, ?, NULL, NULL, ?)";
+            PreparedStatement userStatement = con.prepareStatement(userQuery, Statement.RETURN_GENERATED_KEYS);
+            userStatement.setString(1, username);
+            userStatement.setString(2, password);
+            userStatement.setString(3, role);
+            userStatement.setString(4, name);
+//            userStatement.setString(5, specialization);
+//            userStatement.setString(6, qualification);
+            userStatement.setInt(5, room);
 
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("Patient registered successfully!");
+            int userRowsAffected = userStatement.executeUpdate();
+
+            if (userRowsAffected > 0) {
+                // Retrieve the generated user ID
+                ResultSet userGeneratedKeys = userStatement.getGeneratedKeys();
+                int userId = -1;
+                if (userGeneratedKeys.next()) {
+                    userId = userGeneratedKeys.getInt(1);
+
+                    // Insert into the "patients" table
+                    String patientQuery = "INSERT INTO patients (name, surname, phone_number, reason, room) VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement patientStatement = con.prepareStatement(patientQuery);
+                    patientStatement.setString(1,name);
+                    patientStatement.setString(2, surname);
+                    patientStatement.setInt(3, phone_number);
+                    patientStatement.setString(4, reason);
+                    patientStatement.setInt(5, room);
+
+                    int patientRowsAffected = patientStatement.executeUpdate();
+
+                    if (patientRowsAffected > 0) {
+                        System.out.println("Patient registered successfully!");
+                    } else {
+                        System.out.println("Failed to register patient");
+                    }
+                } else {
+                    System.out.println("Failed to retrieve the generated user ID");
+                }
             } else {
                 System.out.println("Failed to register patient");
             }
@@ -125,47 +165,79 @@ public class User {
         }
     }
 
+
+
     public static void registerDoctor() {
-        System.out.println("Doctor Registration:");
-        System.out.println("Enter username: ");
-        String username = scanner.next();
-        System.out.println("Enter password: ");
-        String password = scanner.next();
-        System.out.println("Enter role: ");
-        String role = scanner.next();
-        System.out.println("Enter name: ");
-        String name = scanner.next();
-        System.out.println("Enter specialization: ");
-        String specialization = scanner.next();
-        System.out.println("Enter qualification: ");
-        String qualification = scanner.next();
-        System.out.println("Enter room: ");
-        int room = scanner.nextInt();
+            System.out.println("Doctor Registration:");
+            System.out.println("Enter username: ");
+            String username = scanner.next();
+            System.out.println("Enter password: ");
+            String password = scanner.next();
+            System.out.println("Enter role: ");
+            String role = scanner.next();
+            System.out.println("Enter name: ");
+            String name = scanner.next();
+            System.out.println("Enter specialization: ");
+            String specialization = scanner.next();
+            System.out.println("Enter qualification: ");
+            String qualification = scanner.next();
+            System.out.println("Enter room: ");
+            int room = scanner.nextInt();
 
-        try {
-            String query = "INSERT INTO users(username, password, role, name, specialization, qualification, room) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, role);
-            preparedStatement.setString(4, name);
-            preparedStatement.setString(5, specialization);
-            preparedStatement.setString(6, qualification);
-            preparedStatement.setInt(7, room);
+            try {
+                // Insert user
+                String insertUserQuery = "INSERT INTO users(username, password, role, name, specialization, qualification, room) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement userStatement = con.prepareStatement(insertUserQuery, Statement.RETURN_GENERATED_KEYS);
+                userStatement.setString(1, username);
+                userStatement.setString(2, password);
+                userStatement.setString(3, role);
+                userStatement.setString(4, name);
+                userStatement.setString(5, specialization);
+                userStatement.setString(6, qualification);
+                userStatement.setInt(7, room);
 
+                int affectedRows = userStatement.executeUpdate();
 
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("Doctor registered successfully!");
-            } else {
-                System.out.println("Failed to register doctor");
+                // Check if user insertion was successful
+                if (affectedRows > 0) {
+                    // Get the generated user ID
+                    try (ResultSet generatedKeys = userStatement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            String dname = generatedKeys.getString(1);
+
+                            // Insert doctor with the obtained user ID
+                            String insertDoctorQuery = "INSERT INTO doctors(name, specialization, qualification, room) VALUES (?, ?, ?, ?)";
+                            PreparedStatement doctorStatement = con.prepareStatement(insertDoctorQuery);
+                            doctorStatement.setString(1, dname);
+                            doctorStatement.setString(2, specialization);
+                            doctorStatement.setString(3, qualification);
+                            doctorStatement.setInt(4, room);
+
+                            int doctorRowsAffected = doctorStatement.executeUpdate();
+
+                            // Check doctor insertion result
+                            if (doctorRowsAffected > 0) {
+                                System.out.println("Doctor registered successfully!");
+                            } else {
+                                System.out.println("Failed to register doctor");
+                            }
+                        } else {
+                            System.out.println("Failed to get user ID.");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Failed to register doctor");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
 
-    public static void signIn(int userId, Connection con, Scanner scanner) {
+
+        public static void signIn(int userId, Connection con, Scanner scanner) {
         try {
             String query = "SELECT role FROM users WHERE id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -328,7 +400,7 @@ public class User {
                     // Delete patient
                     System.out.println("Enter patient id to delete: ");
                     int patID = scanner.nextInt();
-                    Patient.deletePatient(patID);
+                    Patient.deletePatient(patID, con);
                     System.out.println();
                     break;
                 case 8:

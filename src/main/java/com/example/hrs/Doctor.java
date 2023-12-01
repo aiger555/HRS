@@ -1,5 +1,6 @@
 package com.example.hrs;
 
+import java.net.Socket;
 import java.sql.*;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -113,9 +114,9 @@ public class Doctor {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             System.out.println("Doctors: ");
-            System.out.println("+-----+----------------+----------------+---------------+-------+");
-            System.out.println("| ID  | Doctor         | Specialization | Qualification | Room  |");
-            System.out.println("+-----+----------------+----------------+---------------+-------+");
+            System.out.println("+----+---------+----------------+----------------+------+");
+            System.out.println("| ID | Doctor  | Specialization | Qualification  | Room |");
+            System.out.println("+----+---------+----------------+----------------+------+");
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -124,7 +125,7 @@ public class Doctor {
                 String qual = resultSet.getString("qualification");
                 int room = resultSet.getInt("room");
                 System.out.printf("| %-5s | %-16s | %-16s | %-15s | %-7s |\n", id, doctor, spec, qual, room);
-                System.out.println("+-----+----------------+----------------+---------------+-------+");
+                System.out.println("+----+---------+----------------+----------------+---------------+------+");
             }
 
         } catch (SQLException e) {
@@ -180,7 +181,7 @@ public class Doctor {
                         }
                     }
                 } else {
-                    System.out.println("Patient is not available on this date!");
+                    System.out.println("Doctor is not available on this date!");
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Please use the format YYYY-MM-DD.");
@@ -217,9 +218,9 @@ public class Doctor {
     public static void viewPatients(Connection con, int loggedInDoctorId) {
         String query = "SELECT patients.* " +
                 "FROM patients " +
-                "JOIN users ON patients.user_id = users.id " +
-                "JOIN doctors ON doctors.user_id = users.id " +
-                "WHERE patient.id = ?";
+                "JOIN users ON patients.id = users.id " +
+                "JOIN doctors ON doctors.id = patients.id " +
+                "WHERE doctors.id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -244,7 +245,7 @@ public class Doctor {
 
 
     public static void viewPatientDetails(int patientId, int loggedInDoctorId) {
-        String query = "SELECT * FROM patients WHERE id = ? AND user_id = ?";
+        String query = "SELECT * FROM patients WHERE id = ? AND id = ?";
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
