@@ -12,5 +12,7 @@ Team Members List: Enumerate all team members. This list should also appear in t
 Aigerim Nuralieva, 2) Aigerim Naizabekova, 3) Aiperi Zhenishova 4) Aizirek Ibraimova
 
 Roles of Group Members: Clearly define the roles and responsibilities assigned to each team member. Responsibilities: Aizirek Ibraimova - design of project via Figma, presentations Aiperi Zhenishova - frontend Aigerim Naizabekova - database Aigerim Nuralieva - backend
+Jar file: java -jar YourProject.jar
+
 
 #More detailed information is provided in google document: https://docs.google.com/document/d/1CJMmiZKjQkVIveMDRrrhhKAsDddtE39QMXOGCjP3ZmY/edit?usp=sharing
