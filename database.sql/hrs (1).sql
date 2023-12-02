@@ -12,7 +12,6 @@ CREATE TABLE users (
 -- Table for patients
 CREATE TABLE patients (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id),
     name VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
     phone_number INT NOT NULL,
@@ -23,7 +22,6 @@ CREATE TABLE patients (
 -- Table for doctors
 CREATE TABLE doctors (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id),
     name VARCHAR(255) NOT NULL,
     specialization VARCHAR(255) NOT NULL,
     qualification VARCHAR(255) NOT NULL,
@@ -68,19 +66,6 @@ INSERT INTO appointments (patient_id, doctor_id, appointment_date) VALUES
 (1, 1, '2023-12-01'),
 (2, 2, '2023-12-02'),
 (3, 1, '2023-12-03');
-
--- Add a foreign key in doctors table referencing the users table based on matching roles
-ALTER TABLE patients
-ADD CONSTRAINT fk_patients_role
-FOREIGN KEY (id) REFERENCES users(id)
-ON DELETE CASCADE; -- Optional: Specify the desired ON DELETE action
-
--- Add a foreign key in doctors table referencing the users table based on matching IDs
-ALTER TABLE doctors
-ADD CONSTRAINT fk_doctors_user_id
-FOREIGN KEY (id) REFERENCES users(id)
-ON DELETE CASCADE; -- Optional: Specify the desired ON DELETE action
-
 
 
 
