@@ -107,7 +107,7 @@ public class Doctor {
         }
     }
 
-    public void viewDoctor() {
+    public static void viewDoctor() {
         String query = "select * from doctors";
 
         try {
@@ -303,7 +303,7 @@ public class Doctor {
 
 
 
-    public int getLoggedInDoctorId() {
+    public static int getLoggedInDoctorId() {
         return loggedInDoctorId;
     }
 

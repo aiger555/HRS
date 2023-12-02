@@ -116,7 +116,7 @@ public class Patient {
     }
 
 
-    public void viewPatient(){
+    public static String viewPatient(){
         String query = "select * from patients";
 
         try{
@@ -141,6 +141,7 @@ public class Patient {
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return "patient";
     }
 
     public static boolean getPatientById(int id){

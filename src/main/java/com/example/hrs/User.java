@@ -261,6 +261,19 @@ public class User {
             e.printStackTrace();
         }
     }
+    private static void printPatientMenu() {
+        System.out.println("Patient Menu:");
+        System.out.println("1. View Doctors");
+        System.out.println("2. Add doctor");
+        System.out.println("3. Update doctor");
+        System.out.println("4. Delete doctor");
+        System.out.println("5. view booked appointments");
+        System.out.println("6. book appointment");
+        System.out.println("7. Add appointment");
+        System.out.println("8. Update appointment");
+        System.out.println("9. Delete appointment");
+        System.out.println("10. Exit");
+    }
 
     public static void patientMenu(int userId) {
         while (true) {
@@ -330,21 +343,6 @@ public class User {
             }
         }
     }
-
-    private static void printPatientMenu() {
-        System.out.println("Patient Menu:");
-        System.out.println("1. View Doctors");
-        System.out.println("2. Add doctor");
-        System.out.println("3. Update doctor");
-        System.out.println("4. Delete doctor");
-        System.out.println("5. view booked appointments");
-        System.out.println("6. book appointment");
-        System.out.println("7. Add appointment");
-        System.out.println("8. Update appointment");
-        System.out.println("9. Delete appointment");
-        System.out.println("10. Exit");
-    }
-
 
     private static void printDoctorMenu() {
         System.out.println("Doctor Menu:");

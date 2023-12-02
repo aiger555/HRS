@@ -21,7 +21,6 @@
                 <Button mnemonicParsing="false" onAction="#handlePatientMenu" text="Patient Menu" />
                 <Button mnemonicParsing="false" onAction="#handleDoctorMenu" text="Doctor Menu" />
                 <Button mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-                <Button text="Switch to Doctor" onAction="#switchToDoctor"/>
             </children>
         </HBox>
     </children>
