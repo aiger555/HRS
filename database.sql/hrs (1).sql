@@ -71,6 +71,10 @@ INSERT INTO appointments (patient_id, doctor_id, appointment_date) VALUES
 (2, 2, '2023-12-02'),
 (3, 1, '2023-12-03');
 
+-- Updating sample data in users table
+UPDATE users SET patient_id = 1 WHERE id = 3; -- Assigning patient1 to user patient1
+UPDATE users SET doctor_id = 1 WHERE id = 1; -- Assigning doctor1 to user doctor1
+
 
 
 
