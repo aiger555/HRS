@@ -1,0 +1,55 @@
+Create and answer various SQL queries to demonstrate the functionality of the database.
+--Retrieve a list of all users with their roles:
+    SELECT id, username, role, name FROM users;
+
+--List all patients and their assigned doctors:
+    SELECT p.name AS patient_name, d.name AS doctor_name
+    FROM patients p
+    JOIN appointments a ON p.id = a.patient_id
+    JOIN doctors d ON a.doctor_id = d.id;
+
+--Find the total number of appointments for each doctor:
+    SELECT d.name AS doctor_name, COUNT(a.id) AS total_appointments
+    FROM doctors d
+    LEFT JOIN appointments a ON d.id = a.doctor_id
+    GROUP BY d.name;
+
+--Retrieve upcoming appointments for a specific patient:
+    SELECT a.appointment_date, d.name AS doctor_name
+    FROM appointments a
+    JOIN doctors d ON a.doctor_id = d.id
+    WHERE a.patient_id = [Patient_ID]
+    AND a.appointment_date >= CURRENT_DATE;
+
+--Retrieve the total number of patients for each doctor:
+    SELECT d.name AS doctor_name, COUNT(DISTINCT p.id) AS total_patients FROM doctors d
+    LEFT JOIN appointments a ON d.id = a.doctor_id
+    LEFT JOIN patients p ON a.patient_id = p.id
+    GROUP BY d.name;
+
+--List all patients without assigned doctors:
+    SELECT p.name AS patient_name
+    FROM patients p
+    LEFT JOIN appointments a ON p.id = a.patient_id
+    WHERE a.doctor_id IS NULL;
+
+--Retrieve the most recent appointments:
+    SELECT a.appointment_date, p.name AS patient_name, d.name AS doctor_name
+    FROM appointments a
+    JOIN patients p ON a.patient_id = p.id
+    JOIN doctors d ON a.doctor_id = d.id
+    ORDER BY a.appointment_date DESC
+    LIMIT 5;
+
+--Calculate the total number of doctors and patients:
+    SELECT ‘DOCTOR’ AS role, COUNT(id) AS total
+    FROM doctors
+    UNION
+    SELECT ‘PATIENT’ AS role, COUNT(id) AS total
+    FROM patients;
+
+--Identify patients who have not made appointments:
+    SELECT p.name AS patient_name
+    FROM patients p
+    LEFT JOIN appointments a ON p.id = a.patient_id
+    WHERE a.id IS NULL;
