@@ -38,6 +38,10 @@ CREATE TABLE IF NOT EXISTS appointments (
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
 
+-- Adding Foreign Keys to users table
+ALTER TABLE users
+ADD COLUMN patient_id INT REFERENCES patients(id),
+ADD COLUMN doctor_id INT REFERENCES doctors(id);
 
 -- Inserting sample data into doctors table
 INSERT INTO doctors (name, specialization, qualification, room)
