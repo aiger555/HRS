@@ -42,11 +42,13 @@ Create and answer various SQL queries to demonstrate the functionality of the da
     LIMIT 5;
 
 --Calculate the total number of doctors and patients:
-    SELECT ‘DOCTOR’ AS role, COUNT(id) AS total
-    FROM doctors
-    UNION
-    SELECT ‘PATIENT’ AS role, COUNT(id) AS total
-    FROM patients;
+    SELECT 'DOCTOR' AS role, COUNT(id) AS total
+	FROM users
+	WHERE role = 'DOCTOR'
+	UNION
+	SELECT 'PATIENT' AS role, COUNT(id) AS total
+	FROM users
+	WHERE role = 'PATIENT';
 
 --Identify patients who have not made appointments:
     SELECT p.name AS patient_name
