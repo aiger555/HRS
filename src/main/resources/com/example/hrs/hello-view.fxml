@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrs.HelloController">
+    <children>
+        <HBox layoutX="178.0" layoutY="104.0" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#handleViewPatients" text="View Patients" />
+                <Button mnemonicParsing="false" onAction="#handleViewDoctors" text="View Doctors" />
+                <Button mnemonicParsing="false" onAction="#handleRegisterDoctor" text="Register Doctor" />
+                <Button mnemonicParsing="false" onAction="#handleSignInDoctor" text="Sign In Doctor" />
+                <Button mnemonicParsing="false" onAction="#handleRegisterPatient" text="Register Patient" />
+                <Button mnemonicParsing="false" onAction="#handleSignInPatient" text="Sign In Patient" />
+            </children>
+        </HBox>
+        <HBox layoutX="148.0" layoutY="213.0" spacing="10.0">
+            <children>
+                <Button text="Switch to Doctor" onAction="#switchToDoctor"/>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
