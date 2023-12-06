@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Scanner;
@@ -28,9 +29,15 @@ public class HelloController {
     private Connection con;
     private Scanner scanner;
 
-    public HelloController(Connection con, Scanner scanner) {
-        this.con = con;
-        this.scanner = scanner;
+    private static final String url = "jdbc:postgresql://localhost/hrs";
+    private static final String username = "postgres";
+    private static final String password = "postgres";
+
+    @FXML
+    private void initialize() throws SQLException {
+        // Initialize con and scanner here
+        Connection con = DriverManager.getConnection(url, username, password);
+        scanner = new Scanner(System.in);
     }
 
     @FXML
