@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrs.DoctorController">
+    <children>
+        <HBox layoutX="178.0" layoutY="104.0" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#viewPatients" text="View Patients" />
+                <Button mnemonicParsing="false" onAction="#viewPatientDetails" text="View Patient Details" />
+                <Button mnemonicParsing="false" onAction="#viewBookedAppointments" text="View Booked Appointments" />
+                <Button mnemonicParsing="false" onAction="#bookAppointment" text="Book Appointment" />
+                <Button mnemonicParsing="false" onAction="#addPatient" text="Add Patient" />
+                <Button mnemonicParsing="false" onAction="#updatePatient" text="Update Patient" />
+                <Button mnemonicParsing="false" onAction="#deletePatient" text="Delete Patient" />
+                <Button mnemonicParsing="false" onAction="#addAppointment" text="Add Appointment" />
+                <Button mnemonicParsing="false" onAction="#updateAppointment" text="Update Appointment" />
+                <Button mnemonicParsing="false" onAction="#deleteAppointment" text="Delete Appointment" />
+            </children>
+        </HBox>
+        <HBox layoutX="148.0" layoutY="213.0" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
