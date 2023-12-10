@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrs.PatientController">
+    <children>
+        <Button mnemonicParsing="false" onAction="#viewDoctors" text="View Doctors" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="50.0" />
+        <Button mnemonicParsing="false" onAction="#addDoctor" text="Add Doctor" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="90.0" />
+        <Button mnemonicParsing="false" onAction="#updateDoctor" text="Update Doctor" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="130.0" />
+        <Button mnemonicParsing="false" onAction="#deleteDoctor" text="Delete Doctor" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="170.0" />
+        <Button mnemonicParsing="false" onAction="#viewBookedAppointments" text="View Booked &#10;Appointments" textAlignment="CENTER" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="210.0" />
+        <Button mnemonicParsing="false" onAction="#bookAppointment" text="Book Appointment" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="260.0" />
+        <Button mnemonicParsing="false" onAction="#addAppointment" text="Add Appointment" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="300.0" />
+        <Button mnemonicParsing="false" onAction="#updateAppointment" text="Update Appointment" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="340.0" />
+        <Button mnemonicParsing="false" onAction="#deleteAppointment" text="Delete Appointment" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="380.0" />
+        <Button layoutX="55.0" layoutY="390.0" mnemonicParsing="false" onAction="#deleteAppointment" text="EXIT" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="500.0" />
+        <Button text="Exit" onAction="#exit"/>
+    </children>
+    <HBox layoutX="148.0" layoutY="213.0" spacing="10.0">
+        <children>
+            <Button text="Switch to Doctor" onAction="#handleRedirectD"/>
+            <Button text="Switch to Main Menu" onAction="#handleRedirectM"/>
+        </children>
+    </HBox>
+</AnchorPane>
+
+
+
